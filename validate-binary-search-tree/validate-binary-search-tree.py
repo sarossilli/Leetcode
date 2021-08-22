@@ -6,28 +6,12 @@
 #         self.right = right
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        # Start Recursion
-        result = dfs(root)
+        def dfs(root):
+            return dfs(root.left) + [root.val] + dfs(root.right) if root else []
+        res = dfs(root)
         
-        #check order
-        for i in range(len(result)-1):
-            if result[i] >= result[i+1]:
+        for i in range(1,len(res)):
+            if res[i-1] >= res[i]:
                 return False
         return True
-    
-    
-def dfs(node):
-    result = []
-    if node:
-        # Left Tree
-        if node.left:
-            result += dfs(node.left)
-            
-        # Add value to result list
-        result.append(node.val)
-
-        # Right Tree
-        if node.right:
-            result += dfs(node.right)
-            
-        return result
+                    
