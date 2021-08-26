@@ -1,51 +1,30 @@
-class Node:
-    def __init__(self,key,val):
-        self.key,self.val=key,val
-        self.prev,self.next=None,None
+from collections import OrderedDict
     
 class LRUCache:
 
     def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.data = OrderedDict()
         
-        self.cap = capacity
-        self.cache = {}
-        
-        self.left,self.right=Node(0,0),Node(0,0)
-        self.left.next = prev=self.right
-        self.right.prev=self.left
-    
-    def remove(self,node):
-        node.prev.next = node.next
-        node.next.prev = node.prev
-    
-    def insert(self,node):
-        nxt = self.right
-        prev= self.right.prev
-        prev.next =node
-        nxt.prev = node
-        node.prev = prev
-        node.next= nxt
+
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            self.remove(self.cache[key])
-            self.insert(self.cache[key])
-            return self.cache[key].val
+        if key in self.data:
+            self.data.move_to_end(key)
+            return self.data[key]
         else:
             return -1
+        print(self.data)
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            self.remove(self.cache[key])
-            
-        self.cache[key]=Node(key,value)
-        self.insert(self.cache[key])
-        
-        if len(self.cache)>self.cap:
-            lru=self.left.next
-            self.remove(lru)
-            del self.cache[lru.key]        
-            
+        if key in self.data:
+            self.data[key] = value
+        elif len(self.data) >= self.capacity:
+            self.data.popitem(0)
+            self.data[key] = value
+        else:
+            self.data[key] = value
+        self.data.move_to_end(key)
             
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
