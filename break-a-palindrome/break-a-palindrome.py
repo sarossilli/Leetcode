@@ -1,36 +1,57 @@
-# A A A
-# A A B
-
-# B C C B
-# A B C B
-
-# A A C C B A
-
 class Solution:
     def breakPalindrome(self, palindrome: str) -> str:
-        if len(palindrome) <= 1:
+        if len(palindrome) == 1:
             return ""
         
-        res = ""
-        indx = 0
-        found = False
+        l, r = 0,(len(palindrome)//2)
+        str_arr = [i for i in palindrome]
         
-        while not found and indx <= int(len(palindrome)/2)-1:
-            if ord(palindrome[indx]) > ord("a"):
-                res += 'a'
-                print((palindrome[indx]), "FOUND")
-                found = True
-            else:
-                res += palindrome[indx]
+        while l<r:
+            if str_arr[l] != "a":
+                str_arr[l] = "a"
+                return "".join(str_arr)
+            l+=1
             
-            indx += 1
+        str_arr[-1] = "b"
+        return "".join(str_arr)
+
             
-        while indx < len(palindrome):
-            res += palindrome[indx]
-            indx += 1
+        
             
-        if not found:
-            res = res[:-1]
-            res += 'b'
             
-        return res
+    
+
+    
+    
+# A B C C A
+# ^       ^
+
+# A B C C A
+#   ^   ^    B != c, B < C so turn R down
+
+# A B C B A
+#   ^   ^    B != c, turn R down()
+
+
+
+# A F C B A
+# ^       ^
+
+# A F C C A
+#   ^   ^    F != C,  F>C so turn L down
+
+# A B C B A
+#   ^   ^    B != c, turn L down()
+
+
+# A A A A B 
+# ^       ^   A != B,  A<B so turn L down
+
+# A F C C A
+#   ^   ^    F != C,  F>C so turn L down
+
+# A B C B A
+#   ^   ^    B != c, turn L down()
+
+# r^
+# Lv
