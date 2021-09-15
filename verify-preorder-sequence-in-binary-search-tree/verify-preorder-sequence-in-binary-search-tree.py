@@ -1,19 +1,22 @@
 class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
-        # r l ri
+        lower = -1 * math.inf
         
-        # 2 1 3 
+        path = []
         
-        low = -1*(math.inf)
-        stack = []
-        
-        for cur in preorder:
-            if cur < low:
+        for n in preorder:
+            if n < lower:
                 return False
-            
-            while stack and cur>stack[-1]:
-                low = stack.pop()
-                
-            stack.append(cur)
+            while len(path) and n > path[-1]:
+                lower = path.pop()
+            path.append(n)
             
         return True
+        
+
+# [5,2,1,3,6] lb = -inf []
+# [2,1,3,6] lb = -inf [5]
+# [1,3,6] lb = -inf [5,2]
+# [3,6] lb = -inf [5,2,1]
+# [6] lb = 1 [5,2,3]
+# 
