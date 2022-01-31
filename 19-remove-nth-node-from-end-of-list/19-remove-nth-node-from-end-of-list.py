@@ -14,24 +14,21 @@
 
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        stack = []
-        curNode = head
+        root = ListNode(0)
+        root.next = head
+        leftNode = rightNode = root
         
-        while curNode:
-            stack.append(curNode)
-            curNode = curNode.next
+        for i in range(n+1):
+            rightNode = rightNode.next
         
-    
-        stack.pop(len(stack)-n)
+        while rightNode:
+            rightNode = rightNode.next
+            leftNode = leftNode.next
         
-        if stack:
-            root = cur = stack.pop(0)
+        leftNode.next = leftNode.next.next
+        
             
-            for k in range(len(stack)):
-                cur.next = stack.pop(0)
-                cur = cur.next
-            cur.next = None
-            return root
-        
-        else:
-            return None
+            
+            
+            
+        return root.next
